@@ -58,7 +58,7 @@ totalHits++
 app.get("/ssweb", async (req, res) => {
 const { link } = req.query
 
-if (!query) {
+if (!link) {
 return res.status(400).json({ error: "parameter link is required" })
 }
 
