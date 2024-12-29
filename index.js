@@ -37,7 +37,7 @@ return res.status(400).json({ error: "Query parameter is required" })
 let stats
 try {
 const result = await brat(query)
-const response = await axios.get(result.url, { responseType: 'arraybuffer' })
+const response = await axios.get(result, { responseType: 'arraybuffer' })
 
 res.set('Content-Type', 'image/webp')
 res.send(response.data)
@@ -65,7 +65,7 @@ return res.status(400).json({ error: "parameter link is required" })
 let stats
 try {
 const result = await ssweb(link)
-const response = await axios.get(result.url, { responseType: 'arraybuffer' })
+const response = await axios.get(result, { responseType: 'arraybuffer' })
 
 res.set('Content-Type', 'image/webp')
 res.send(response.data)
@@ -98,9 +98,13 @@ const result = await run("javascript", code)
 const files = result.result.files
 const fileData = files[0]
 
-return {
-url: "https://try.playwright.tech" + fileData.publicURL,
-fileName: fileData.fileName,
-extension: fileData.extension,
+return "https://try.playwright.tech" + result.result.files[0].publicURL
+
 }
+
+async function ssweb(query) {
+const code = "from playwright.sync_api import sync_playwright\n\nwith sync_playwright() as p:\n    browser = p.chromium.launch()\n    page = browser.new_page()\n    page.goto(" + query +")\n    page.screenshot(path=\"example.png\")\n    browser.close()\n"
+const result = await run("python", code)
+
+return "https://try.playwright.tech" + result.result.files[0].publicURL,
 }
