@@ -11,7 +11,7 @@ let hitsPerMinute = 0
 
 app.get("/", (req,res) => {
 res.json({
-endpoint: ["/generate"],
+endpoint: ["/generate", "/ssweb"],
 stats: {
 hitsPerMinute,
 totalHits,
@@ -55,6 +55,33 @@ totalHits++
 }
 })
 
+app.get("/ssweb", async (req, res) => {
+const { link } = req.query
+
+if (!query) {
+return res.status(400).json({ error: "parameter link is required" })
+}
+
+let stats
+try {
+const result = await ssweb(link)
+const response = await axios.get(result.url, { responseType: 'arraybuffer' })
+
+res.set('Content-Type', 'image/webp')
+res.send(response.data)
+
+stats = 200
+} catch (error) {
+console.error(error)
+res.status(500).json({ error: "Failed to screenshoot web" })
+stats = 500
+}
+
+if (stats === 200) {
+hitsPerMinute++
+totalHits++
+}
+})
 
 app.listen(PORT, () => {
 console.log(`Server running on http://localhost:${PORT}`)
