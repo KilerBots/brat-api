@@ -101,5 +101,5 @@ return "https://try.playwright.tech" + result.result.files[0].publicURL
 async function ssweb(query) {
 const code = "from playwright.sync_api import sync_playwright\n\nwith sync_playwright() as p:\n    browser = p.chromium.launch()\n    page = browser.new_page()\n    page.goto(" + query +")\n    page.screenshot(path=\"example.png\")\n    browser.close()\n"
 const result = await run("python", code)
-return "https://try.playwright.tech" + result.result.files[0].publicURL,
+return "https://try.playwright.tech" + result.result.files[0].publicURL
 }
