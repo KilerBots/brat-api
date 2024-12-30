@@ -49,13 +49,13 @@ totalHits++
 })
 
 app.get("/ssweb", async (req, res) => {
-const { link } = req.query
+const { link,width,height } = req.query
 if (!link) {
 return res.status(400).json({ error: "parameter link is required" })
 }
 let stats
 try {
-const result = await ssweb(link)
+const result = await ssweb(link,width,height)
 const response = await axios.get(result.url, { responseType: 'arraybuffer' })
 res.set('Content-Type', 'image/webp')
 res.send(response.data)
@@ -95,8 +95,8 @@ extension: fileData.extension,
 }
 }
 
-async function ssweb(query) {
-    const code = `const { chromium } = require('playwright');\n\n(async () => {\nconst browser = await chromium.launch();\nconst page = await browser.newPage();\nawait page.goto(\"` + query + `\", { waitUntil: 'networkidle' });\nawait page.waitForTimeout(5000)\nawait page.screenshot({ path: \"Uptime.png\", fullPage: true });\nawait browser.close();\n})();\n`;
+async function ssweb(query, width = 1920, height = 1020) {
+    const code = `const { chromium } = require('playwright');\n\n(async () => {\nconst browser = await chromium.launch();\nconst page = await browser.newPage({ viewport: { ${width}, ${height} } });\nawait page.goto(\"` + query + `\", { waitUntil: 'networkidle' });\nawait page.waitForTimeout(5000)\nawait page.screenshot({ path: \"Uptime.png\", fullPage: true });\nawait browser.close();\n})();\n`;
     
     const result = await run("javascript", code); // Menjalankan kode melalui API atau runtime tertentu
     const files = result.result.files;
