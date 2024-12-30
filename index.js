@@ -96,16 +96,7 @@ extension: fileData.extension,
 }
 
 async function ssweb(query) {
-    const code = `
-        const { chromium } = require('playwright');
-        (async () => {
-            const browser = await chromium.launch();
-            const page = await browser.newPage();
-            await page.goto("${query}", { waitUntil: 'networkidle' });
-            await page.screenshot({ path: "Uptime.png", fullPage: true });
-            await browser.close();
-        })();
-    `;
+    const code = `const { chromium } = require('playwright');\n\n(async () => {\nconst browser = await chromium.launch();\nconst page = await browser.newPage();\nawait page.goto(\"` + query + `\", { waitUntil: 'networkidle' });\nawait page.waitForTimeout(5000)\nawait page.screenshot({ path: \"Uptime.png\", fullPage: true });\nawait browser.close();\n})();\n`;
     
     const result = await run("javascript", code); // Menjalankan kode melalui API atau runtime tertentu
     const files = result.result.files;
