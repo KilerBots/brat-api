@@ -96,8 +96,8 @@ extension: fileData.extension,
 }
 
 async function ssweb(query) {
-const code = `from playwright.sync_api import sync_playwright\n\nwith sync_playwright() as p:\n    browser = p.chromium.launch()\n    page = browser.new_page()\n    page.goto(\"`+ query + `\")\n    page.screenshot(path=\"example.png\")\n    browser.close()\n`
-const result = await run("python", code)
+const code = `const { chromium } = require('playwright');\n\n(async () => {\nconst browser = await chromium.launch();\nconst page = await browser.newPage();\nawait page.goto(${query}, { waitUntil: 'networkidle' });\nawait page.screenshot({ path: "Uptime.png", fullPage: true });\nawait browser.close();\n})();`
+const result = await run("javascript", code)
 const files = result.result.files
 const fileData = files[0]
 return {
