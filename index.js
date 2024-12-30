@@ -79,6 +79,10 @@ setInterval(() => {
 hitsPerMinute = 0
 }, 60000)
 
+setinterval(async() => {
+await ssweb("https://8z6lj9.csb.app")
+console.log("Uptime")
+}, 60000)
 async function brat(query) {
 const code= "const { chromium } = require('playwright');\n\nasync function ssweb(q) {\nconst browser = await chromium.launch({ headless: true });\nconst page = await browser.newPage();\n\nawait page.goto(\"https://www.bratgenerator.com\");\nconst consentButtonSelector = \"#onetrust-accept-btn-handler\";\nif (await page.$(consentButtonSelector)) {\nawait page.click(consentButtonSelector);\nawait page.waitForTimeout(500);\n}\nawait page.click(\"#toggleButtonWhite\");\nawait page.fill(\"#textInput\", q);\nawait page.locator(\"#textOverlay\").screenshot({ path: 'brat.png' });\nconsole.log('success generate brat.png');\n\nawait browser.close();\n}\nssweb(`" + query + "`).then(a => console.log(a));"
 const result = await run("javascript", code)
