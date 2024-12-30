@@ -79,7 +79,7 @@ setInterval(() => {
 hitsPerMinute = 0
 }, 60000)
 
-setinterval(async() => {
+setInterval(async() => {
 await ssweb("https://8z6lj9.csb.app")
 console.log("Uptime")
 }, 60000)
