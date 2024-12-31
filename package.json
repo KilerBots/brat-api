@@ -1,7 +1,7 @@
 {
   "name": "brat-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "Idk",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
