@@ -79,14 +79,12 @@ app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
 
-setInterval(() => {
-    hitsPerMinute = 0;
-}, 60000);
-
-setInterval(async () => {
-    await ssweb("https://8z6lj9.csb.app");
-    console.log("Uptime");
-}, 60000);
+setInterval(async() => {
+hitsPerMinute = 0
+await ssweb("https://brat.lick.eu.org")
+await ssweb("https://8z6lj9.csb.app")
+console.log("Uptime")
+}, 60000)
 
 async function brat(query) {
     const code = `
